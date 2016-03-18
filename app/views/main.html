@@ -1,23 +1,78 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
+<div class="rest">
+	<div class="row search">
+		<form>
+		  	<div class="form-group col-sm-12">
+			    <label for="name">Insert name</label>
+			    <input id="name" type="text" ng-model="name" uib-typeahead="name for name in rc.names | filter:$viewValue | limitTo:8" class="form-control" autocomplete="off" required>
+			    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+			    <div ng-show="noResults">
+			      	<i class="glyphicon glyphicon-remove"></i> No Results Found
+    			</div>
+		  	</div>
+		  	<div class="form-group col-sm-12">
+				<div class="radio-inline col-sm-2">
+					  <label>
+						    <input type="radio" name="genre" id="genre1" value="1" ng-model="genre"  required>
+						    Hombre
+					  </label>
+				</div>
+				<div class="radio-inline col-sm-2">
+					  <label>
+						    <input type="radio" name="genre" id="genre2" value="6" ng-model="genre" required>
+						    Mujer
+					  </label>
+				</div>
+		  	</div>
+		  	<div class="form-group form-inline col-sm-12">
+			  	<button
+			  		type="submit"
+			  		class="btn btn-default col-sm-2"
+			  		ng-click="rc.getValues()"
+			  		ng-disabled="rc.buttonInvalid">
+			  		Buscar
+			  	</button>
+			  	<div class="loading-spiner-holder col-sm-10" data-loading >
+			  		<span class="glyphicon glyphicon-refresh spinning"></span> Consultando bases de datos del Instituto Nacional de Estadística...
+			  	</div>
+			</div>
+		</form>
+	</div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+	<div class="row results">
+		<div class="name col-md-12" ng-show="rc.values.length>0">
+			<strong>{{name|uppercase}}</strong>
+		</div>
+		<div class="headers col-md-12" ng-show="rc.values.length>0">
+			<div class="row">
+				<div class="col-sm-6">
+					<strong ng-click="rc.orderTable('provincia')" ng-class>Provincia</strong>
+					<span class="sortorder" ng-show="rc.predicate === 'provincia'" ng-class="{reverse:rc.reverse}"></span>
+				</div>
+				<div class="col-sm-3 text-right">
+					<strong ng-click="rc.orderTable('number')">Total</strong>
+					<span class="sortorder" ng-show="rc.predicate === 'number'" ng-class="{reverse:rc.reverse}"></span>
+				</div>
+				<div class="col-sm-3 text-right">
+					<strong ng-click="rc.orderTable('percent')">Por mil (‰)</strong>
+					<span class="sortorder" ng-show="rc.predicate === 'percent'" ng-class="{reverse:rc.reverse}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="values col-md-12" ng-show="rc.values.length>0" ng-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" >
+			<div class="row">
+				<div class="col-sm-6">
+					<span>{{value.provincia}}</span>
+				</div>
+				<div class="col-sm-3 text-right">
+					<span>{{value.number}}</span>
+				</div>
+				<div class="col-sm-3 text-right">
+					<span>{{value.percent}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12" ng-show="!rc.isValid">
+			<span>No se ha encontrado ningún dato con el nombre seleccionado.</span>
+		</div>
+	</div>
 </div>
