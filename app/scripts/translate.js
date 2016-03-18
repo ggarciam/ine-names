@@ -1,6 +1,6 @@
 'use strict';
 // configure and load languages in extra file to separate from tests
-angular.module('translateApp').config(['$translateProvider', function ($translateProvider) {
+angular.module('ineNamesApp').config(['$translateProvider', function ($translateProvider) {
 
   // load data from $templateCache instead of $http cache
   $translateProvider.useLoaderCache('$templateCache')

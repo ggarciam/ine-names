@@ -31,7 +31,7 @@
 			  		ng-disabled="rc.buttonInvalid">
 			  		Buscar
 			  	</button>
-			  	<div class="loading-spiner-holder col-sm-10" data-loading >
+			  	<div class="loading-spiner-holder col-sm-10" data-loading>
 			  		<span class="glyphicon glyphicon-refresh spinning"></span> Consultando bases de datos del Instituto Nacional de Estadística...
 			  	</div>
 			</div>
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="values col-md-12" ng-show="rc.values.length>0" ng-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" >
+		<div class="values col-md-12" ng-show="rc.values.length>0" ng-repeat="value in rc.values " >
 			<div class="row">
 				<div class="col-sm-6">
 					<span>{{value.provincia}}</span>

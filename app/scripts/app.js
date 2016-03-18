@@ -27,7 +27,8 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'RestCtrl'
+        controller: 'RestCtrl',
+        controllerAs: 'rc'
       })
       .otherwise({
         redirectTo: '/'
