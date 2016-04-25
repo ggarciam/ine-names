@@ -148,8 +148,8 @@ angular.module('ineNamesApp')
 	this.isValid = true;
 	this.orderTable = orderTable;
 	this.predicate = '';
-  	this.reverse = false;
-  	this.buttonInvalid = false;
+  this.reverse = false;
+  this.buttonInvalid = false;
 
 	// 5. Clean up
 	$scope.$on('$destroy', function () {

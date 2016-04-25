@@ -18,6 +18,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'pascalprecht.translate',
+    'ui.bootstrap',
     'LocalStorageModule'
   ])
   .config(['localStorageServiceProvider', function(localStorageServiceProvider){
