@@ -1,46 +1,53 @@
-<div class="rest">
+<div class="rest" ng-cloak>
 	<div class="row search">
 		<form>
-		  	<div class="form-group col-sm-12">
-			    <label for="name">Insert name</label>
-			    <input id="name" type="text" ng-model="name" uib-typeahead="name for name in rc.names | filter:$viewValue | limitTo:8" class="form-control" autocomplete="off" required>
-			    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-			    <div ng-show="noResults">
-			      	<i class="glyphicon glyphicon-remove"></i> No Results Found
-    			</div>
-		  	</div>
-		  	<div class="form-group col-sm-12">
-				<div class="radio-inline col-sm-2">
-					  <label>
-						    <input type="radio" name="genre" id="genre1" value="1" ng-model="genre"  required>
-						    Hombre
-					  </label>
-				</div>
-				<div class="radio-inline col-sm-2">
-					  <label>
-						    <input type="radio" name="genre" id="genre2" value="6" ng-model="genre" required>
-						    Mujer
-					  </label>
-				</div>
-		  	</div>
-		  	<div class="form-group form-inline col-sm-12">
-			  	<button
-			  		type="submit"
-			  		class="btn btn-default col-sm-2"
+
+				<div layout-gt-sm="row" layout-padding>
+					<div layout-gt-sm="column" layout-padding>
+						<md-autocomplete
+							ng-disabled="rc.isDisabled"
+							md-no-cache="rc.noCache"
+							md-selected-item="rc.selectedItem"
+							md-search-text-change="rc.searchTextChange(rc.searchText)"
+							md-search-text="rc.searchText"
+							md-selected-item-change="rc.selectedItemChange(item)"
+							md-items="item in rc.querySearch(rc.searchText)"
+							md-item-text="item.display"
+							md-min-length="0"
+							placeholder="Nombre?">
+							<md-item-template>
+	               <span md-highlight-text="rc.searchText" md-highlight-flags="^i">{{item}}</span>
+	            </md-item-template>
+	            <md-not-found>
+	               No existe ningún nombre que coincida con "{{ctrl.searchText}}".
+	               <a ng-click="rc.newState(rc.searchText)">Puedes añadirlo!</a>
+	            </md-not-found>
+		      	</md-autocomplete>
+					</div>
+					<div layout-gt-sm="column" layout-padding>
+						<md-radio-group ng-model="rc.genre">
+							<md-radio-button ng-repeat="g in rc.genres"
+															 ng-value="g.value"
+															 aria-label="{{g.title}}">{{ g.title }}
+							</md-radio-button>
+						</md-radio-group>
+					</div>
+        </div>
+				<div layout-gt-sm="row" layout-padding>
+					<md-button
+						class="md-raised md-primary"
 			  		ng-click="rc.getValues()"
 			  		ng-disabled="rc.buttonInvalid">
 			  		Buscar
-			  	</button>
-			  	<div class="loading-spiner-holder col-sm-10" data-loading >
-			  		<span class="glyphicon glyphicon-refresh spinning"></span> Consultando bases de datos del Instituto Nacional de Estadística...
-			  	</div>
-			</div>
+			  	</md-button>
+					<md-progress-circular md-mode="{{rc.mode}}"></md-progress-circular>
+				</div>
 		</form>
 	</div>
 
 	<div class="row results">
 		<div class="name col-md-12" ng-show="rc.values.length>0">
-			<strong>{{name|uppercase}}</strong>
+			<strong>{{rc.name|uppercase}}</strong>
 		</div>
 		<div class="headers col-md-12" ng-show="rc.values.length>0">
 			<div class="row">
