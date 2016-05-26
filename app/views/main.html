@@ -1,8 +1,7 @@
 <div class="rest" ng-cloak>
-	<div class="row search">
+	<div layout="row">
 		<form>
-
-				<div layout-gt-sm="row" layout-padding>
+				<div layout-gt-sm="row">
 					<div layout-gt-sm="column" layout-padding>
 						<md-autocomplete
 							ng-disabled="rc.isDisabled"
@@ -24,7 +23,7 @@
 	            </md-not-found>
 		      	</md-autocomplete>
 					</div>
-					<div layout-gt-sm="column" layout-padding>
+					<div layout-gt-sm="column">
 						<md-radio-group ng-model="rc.genre">
 							<md-radio-button ng-repeat="g in rc.genres"
 															 ng-value="g.value"
@@ -45,36 +44,73 @@
 		</form>
 	</div>
 
-	<div class="row results">
-		<div class="name col-md-12" ng-show="rc.values.length>0">
-			<strong>{{rc.name|uppercase}}</strong>
+	<div layout="column" layout-padding ng-show="rc.values.length>0">
+		<div layout-gt-sm="row" class="name">
+			<h3 class="md-headline">{{rc.name}}</h3>
 		</div>
-		<div class="headers col-md-12" ng-show="rc.values.length>0">
-			<div class="row">
-				<div class="col-sm-6">
-					<strong ng-click="rc.orderTable('provincia')" ng-class>Provincia</strong>
-					<span class="sortorder" ng-show="rc.predicate === 'provincia'" ng-class="{reverse:rc.reverse}"></span>
-				</div>
-				<div class="col-sm-3 text-right">
-					<strong ng-click="rc.orderTable('number')">Total</strong>
-					<span class="sortorder" ng-show="rc.predicate === 'number'" ng-class="{reverse:rc.reverse}"></span>
-				</div>
-				<div class="col-sm-3 text-right">
-					<strong ng-click="rc.orderTable('percent')">Por mil (‰)</strong>
-					<span class="sortorder" ng-show="rc.predicate === 'percent'" ng-class="{reverse:rc.reverse}"></span>
+		<div layout-gt-sm="row" class="headers">
+			<div flex="50">
+				<div layout-gt-sm="row">
+					<div flex="33">
+							<strong class="md-body-2" ng-click="rc.orderTable('provincia')">Provincia</strong>
+							<span class="sortorder" ng-show="rc.predicate === 'provincia'" ng-class="{reverse:rc.reverse}"></span>
+					</div>
+					<div flex="33">
+						<div layout="row" layout-align="end center">
+							<strong class="md-body-2" ng-click="rc.orderTable('number')">Total</strong>
+							<span class="sortorder" ng-show="rc.predicate === 'number'" ng-class="{reverse:rc.reverse}"></span>
+						</div>
+					</div>
+					<div flex="33" class="text-right">
+						<div layout="row" layout-align="end center">
+							<strong class="md-body-2" ng-click="rc.orderTable('percent')">Por mil (‰)</strong>
+							<span class="sortorder" ng-show="rc.predicate === 'percent'" ng-class="{reverse:rc.reverse}"></span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="values col-md-12" ng-show="rc.values.length>0" ng-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" >
-			<div class="row">
-				<div class="col-sm-6">
-					<span>{{value.provincia}}</span>
+		<div layout-gt-sm="row" class="values">
+			<md-virtual-repeat-container id="vertical-container">
+				{{rc.values}}
+				<div class="values" md-virtual-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" flex>
+					{{value.provincia}}
+					<!-- <div flex="50">
+						<div layout-gt-sm="row">
+							<div flex="33">
+								<span>{{value.provincia}}</span>
+							</div>
+							<div flex="33">
+								<div layout="row" layout-align="end center">
+									<span>{{value.number}}</span>
+								</div>
+							</div>
+							<div flex="33">
+								<div layout="row" layout-align="end center">
+									<span>{{value.percent}}</span>
+								</div>
+							</div>
+						</div>
+					</div> -->
 				</div>
-				<div class="col-sm-3 text-right">
-					<span>{{value.number}}</span>
-				</div>
-				<div class="col-sm-3 text-right">
-					<span>{{value.percent}}</span>
+			</md-virtual-repeat-container>
+		</div>
+		<div layout-gt-sm="row" class="values" ng-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" >
+			<div flex="50">
+				<div layout-gt-sm="row">
+					<div flex="33">
+						<span>{{value.provincia}}</span>
+					</div>
+					<div flex="33">
+						<div layout="row" layout-align="end center">
+							<span>{{value.number}}</span>
+						</div>
+					</div>
+					<div flex="33">
+						<div layout="row" layout-align="end center">
+							<span>{{value.percent}}</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
