@@ -40,47 +40,35 @@ angular.module('ineNamesApp')
 
 	function getNames() {
 
-		var alphabet = 'bcdefghijklmnopqrstuvwxyz'.split('');
-		var alphaComplet = [];
-
-		// letter a has no value in wikipedia, we have to do it apart.
-		var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D\'https%3A%2F%2Fes.wikipedia.org%2Fwiki%2FWikiproyecto%3ANombres_propios%2Flibro_de_los_nombres\'%20and%20xpath%3D\'%2F%2F*%5B%40id%3D%22mw-content-text%22%5D%2Ful%2Fli%2Fa\'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=';
-
-    $http({method: 'POST', url: url})
-		.then(function successCallback(data) {
-
-			var names = data.data.query.results.a;
-
-			alphaComplet.push('a');
-
-			angular.forEach(names, function(name){
-		 		controller.names.push(name.content);
-		 	});
-		}, function errorCallback(data){
-		 		console.log('error in letter a, ' + data);
-		});
+		var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    var counter = 0;
 
 		angular.forEach(alphabet, function(letter) {
 
-		  	url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D\'https%3A%2F%2Fes.wikipedia.org%2Fwiki%2FWikiproyecto%3ANombres_propios%2Flibro_de_los_nombres/' + letter + '\'%20and%20xpath%3D\'%2F%2F*%5B%40id%3D%22mw-content-text%22%5D%2Ful%2Fli%2Fa\'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=';
+      if(letter=== 'a') {
+        letter = '';
+      } else {
+        letter = '/' + letter
+      }
 
-			var letra = letter;
+		  var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D\'https%3A%2F%2Fes.wikipedia.org%2Fwiki%2FWikiproyecto%3ANombres_propios%2Flibro_de_los_nombres' + letter + '\'%20and%20xpath%3D\'%2F%2F*%5B%40id%3D%22mw-content-text%22%5D%2Ful%2Fli%2Fa\'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=';
 
 			$http({method: 'POST', url: url})
 			.then(function successCallback(data) {
 				var names = data.data.query.results.a;
-				alphaComplet.push(letra);
 				angular.forEach(names, function(name){
 			 		controller.names.push(name.content);
 			 	});
 
-			 	if(alphaComplet.length === alphabet.length) {
+			 	if(counter === 25) {
           controller.names = controller.names.sort();
 			 		localStorageService.set('names', controller.names);
 			 	}
 
+        counter++;
+
 			}, function errorCallback(data){
-		 		console.log('error in letter ' + letra + ', ' + data);
+		 		console.log('error in letter ' + letter + ', ' + data);
 		 	});
 		});
 	}
