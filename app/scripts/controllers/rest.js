@@ -152,7 +152,6 @@ angular.module('ineNamesApp')
             function createFilterFor(query) {
                 var lowercaseQuery = angular.lowercase(query);
                 return function filterFn(name) {
-                    console.log('Hola');
                     return (name.toLowerCase().indexOf(lowercaseQuery) === 0);
                 };
             }
