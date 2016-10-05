@@ -1,121 +1,121 @@
 <div class="rest" ng-cloak>
-	<div layout="row">
-		<form>
-				<div layout-gt-sm="row">
-					<div layout-gt-sm="column" layout-padding>
-						<md-autocomplete
-							ng-disabled="rc.isDisabled"
-							md-no-cache="rc.noCache"
-							md-selected-item="rc.selectedItem"
-							md-search-text-change="rc.searchTextChange(rc.searchText)"
-							md-search-text="rc.searchText"
-							md-selected-item-change="rc.selectedItemChange(item)"
-							md-items="item in rc.querySearch(rc.searchText)"
-							md-item-text="item.display"
-							md-min-length="0"
-							placeholder="Nombre?">
-							<md-item-template>
-	               <span md-highlight-text="rc.searchText" md-highlight-flags="^i">{{item}}</span>
-	            </md-item-template>
-	            <md-not-found>
-	               No existe ningún nombre que coincida con "{{ctrl.searchText}}".
-	               <a ng-click="rc.newState(rc.searchText)">Puedes añadirlo!</a>
-	            </md-not-found>
-		      	</md-autocomplete>
-					</div>
-					<div layout-gt-sm="column">
-						<md-radio-group ng-model="rc.genre">
-							<md-radio-button ng-repeat="g in rc.genres"
-															 ng-value="g.value"
-															 aria-label="{{g.title}}">{{ g.title }}
-							</md-radio-button>
-						</md-radio-group>
-					</div>
-        </div>
-				<div layout-gt-sm="row" layout-padding>
-					<md-button
-						class="md-raised md-primary"
-			  		ng-click="rc.getValues()"
-			  		ng-disabled="rc.buttonInvalid">
-			  		Buscar
-			  	</md-button>
-					<md-progress-circular md-mode="{{rc.mode}}"></md-progress-circular>
-				</div>
-		</form>
-	</div>
+    <div layout="row">
+        <form>
+            <div layout-gt-sm="row">
+                <div layout-gt-sm="column" layout-padding>
+                    <md-autocomplete
+                            ng-disabled="rc.isDisabled"
+                            md-no-cache="rc.noCache"
+                            md-selected-item="rc.selectedItem"
+                            md-search-text-change="rc.searchTextChange(rc.searchText)"
+                            md-search-text="rc.searchText"
+                            md-selected-item-change="rc.selectedItemChange(item)"
+                            md-items="item in rc.querySearch(rc.searchText)"
+                            md-item-text="item.display"
+                            md-min-length="0"
+                            placeholder="Nombre?">
+                        <md-item-template>
+                            <span md-highlight-text="rc.searchText" md-highlight-flags="^i">{{item}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            No existe ningún nombre que coincida con "{{ctrl.searchText}}".
+                            <a ng-click="rc.newState(rc.searchText)">Puedes añadirlo!</a>
+                        </md-not-found>
+                    </md-autocomplete>
+                </div>
+                <div layout-gt-sm="column">
+                    <md-radio-group ng-model="rc.genre">
+                        <md-radio-button ng-repeat="g in rc.genres"
+                                         ng-value="g.value"
+                                         aria-label="{{g.title}}">{{ g.title }}
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
+            </div>
+            <div layout-gt-sm="row" layout-padding>
+                <md-button
+                        class="md-raised md-primary"
+                        ng-click="rc.getValues()"
+                        ng-disabled="rc.buttonInvalid">
+                    Buscar
+                </md-button>
+                <md-progress-circular md-mode="{{rc.mode}}"></md-progress-circular>
+            </div>
+        </form>
+    </div>
 
-	<div layout="column" layout-padding ng-show="rc.values.length>0">
-		<div layout-gt-sm="row" class="name">
-			<h3 class="md-headline">{{rc.name}}</h3>
-		</div>
-		<div layout-gt-sm="row" class="headers">
-			<div flex="50">
-				<div layout-gt-sm="row">
-					<div flex="33">
-							<strong class="md-body-2" ng-click="rc.orderTable('provincia')">Provincia</strong>
-							<span class="sortorder" ng-show="rc.predicate === 'provincia'" ng-class="{reverse:rc.reverse}"></span>
-					</div>
-					<div flex="33">
-						<div layout="row" layout-align="end center">
-							<strong class="md-body-2" ng-click="rc.orderTable('number')">Total</strong>
-							<span class="sortorder" ng-show="rc.predicate === 'number'" ng-class="{reverse:rc.reverse}"></span>
-						</div>
-					</div>
-					<div flex="33" class="text-right">
-						<div layout="row" layout-align="end center">
-							<strong class="md-body-2" ng-click="rc.orderTable('percent')">Por mil (‰)</strong>
-							<span class="sortorder" ng-show="rc.predicate === 'percent'" ng-class="{reverse:rc.reverse}"></span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div layout-gt-sm="row" class="values">
-			<md-virtual-repeat-container id="vertical-container">
-				{{rc.values}}
-				<div class="values" md-virtual-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" flex>
-					{{value.provincia}}
-					<!-- <div flex="50">
-						<div layout-gt-sm="row">
-							<div flex="33">
-								<span>{{value.provincia}}</span>
-							</div>
-							<div flex="33">
-								<div layout="row" layout-align="end center">
-									<span>{{value.number}}</span>
-								</div>
-							</div>
-							<div flex="33">
-								<div layout="row" layout-align="end center">
-									<span>{{value.percent}}</span>
-								</div>
-							</div>
-						</div>
-					</div> -->
-				</div>
-			</md-virtual-repeat-container>
-		</div>
-		<div layout-gt-sm="row" class="values" ng-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" >
-			<div flex="50">
-				<div layout-gt-sm="row">
-					<div flex="33">
-						<span>{{value.provincia}}</span>
-					</div>
-					<div flex="33">
-						<div layout="row" layout-align="end center">
-							<span>{{value.number}}</span>
-						</div>
-					</div>
-					<div flex="33">
-						<div layout="row" layout-align="end center">
-							<span>{{value.percent}}</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-12" ng-show="!rc.isValid">
-			<span>No se ha encontrado ningún dato con el nombre seleccionado.</span>
-		</div>
-	</div>
+    <div layout="column" layout-padding ng-show="rc.values.length>0">
+        <div layout-gt-sm="row" class="name">
+            <h3 class="md-headline">{{rc.name}}</h3>
+        </div>
+        <div layout-gt-sm="row" class="headers">
+            <div flex="50">
+                <div layout-gt-sm="row">
+                    <div flex="33">
+                        <strong class="md-body-2" ng-click="rc.orderTable('provincia')">Provincia</strong>
+                        <span class="sortorder" ng-show="rc.predicate === 'provincia'" ng-class="{reverse:rc.reverse}"></span>
+                    </div>
+                    <div flex="33">
+                        <div layout="row" layout-align="end center">
+                            <strong class="md-body-2" ng-click="rc.orderTable('number')">Total</strong>
+                            <span class="sortorder" ng-show="rc.predicate === 'number'" ng-class="{reverse:rc.reverse}"></span>
+                        </div>
+                    </div>
+                    <div flex="33" class="text-right">
+                        <div layout="row" layout-align="end center">
+                            <strong class="md-body-2" ng-click="rc.orderTable('percent')">Por mil (‰)</strong>
+                            <span class="sortorder" ng-show="rc.predicate === 'percent'" ng-class="{reverse:rc.reverse}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div layout-gt-sm="row" class="values">
+            <md-virtual-repeat-container id="vertical-container">
+                {{rc.values}}
+                <div class="values" md-virtual-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" flex>
+                    {{value.provincia}}
+                    <!-- <div flex="50">
+                        <div layout-gt-sm="row">
+                            <div flex="33">
+                                <span>{{value.provincia}}</span>
+                            </div>
+                            <div flex="33">
+                                <div layout="row" layout-align="end center">
+                                    <span>{{value.number}}</span>
+                                </div>
+                            </div>
+                            <div flex="33">
+                                <div layout="row" layout-align="end center">
+                                    <span>{{value.percent}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </md-virtual-repeat-container>
+        </div>
+        <div layout-gt-sm="row" class="values" ng-repeat="value in rc.values | orderBy:rc.predicate:rc.reverse" >
+            <div flex="50">
+                <div layout-gt-sm="row">
+                    <div flex="33">
+                        <span>{{value.provincia}}</span>
+                    </div>
+                    <div flex="33">
+                        <div layout="row" layout-align="end center">
+                            <span>{{value.number}}</span>
+                        </div>
+                    </div>
+                    <div flex="33">
+                        <div layout="row" layout-align="end center">
+                            <span>{{value.percent}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="!rc.isValid">
+            <span>No se ha encontrado ningún dato con el nombre seleccionado.</span>
+        </div>
+    </div>
 </div>
